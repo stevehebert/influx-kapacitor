@@ -1,7 +1,7 @@
 {
   "name": "influx-kapacitor",
-  "version": "0.0.2",
-  "description": "A nice greeter",
+  "version": "0.8.1",
+  "description": "An influx broadcaster supporting multiple transmission protocols and applies backpressure to reduce chattiness.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
@@ -25,12 +25,12 @@
     "capacitor",
     "backpressure"
   ],
-  "author": "C-J",
+  "author": "Steve Hebert",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/caki0915/my-awesome-greeter/issues"
   },
-  "homepage": "https://github.com/caki0915/my-awesome-greeter#readme",
+  "homepage": "https://github.com/stevehebert/influx-kapacitor/issues",
   "devDependencies": {
     "codecov": "^3.1.0",
     "jest": "^23.6.0",
