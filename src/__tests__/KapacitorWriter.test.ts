@@ -69,6 +69,19 @@ describe('InfluxKapacitor', () => {
     expect(stub.recorded_values[0].substring(0, 24)).toEqual('myMeasure key1=4,key2=7 ');
   });
 
+  it('accepts a standard message with two values and tags', () => {
+    var stub = new InsulatorStub();
+
+    var impl = new InfluxKapacitorWriter(stub);
+
+
+    impl.record('myMeasure', {'key1':4, 'key2': 7}, {'abcd': '12345678'});
+
+    expect(stub.recorded_values.length).toEqual(1);
+    expect(stub.recorded_values[0].length).toBeGreaterThan(20);
+    expect(stub.recorded_values[0].substring(0, 38)).toEqual('myMeasure,abcd=12345678 key1=4,key2=7 ');
+  });
+
   it('runs', () => {
     var stub = new InfluxPipeStub();
 

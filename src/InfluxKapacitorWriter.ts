@@ -18,12 +18,14 @@ export class InfluxKapacitorWriter {
       tags = {};
     }
 
-    const formattedMessage = converter.convert({
+    const message = {
       fields: values,
       measurement,
       tags,
       ts: timestamp || Date.now() * 1000000,
-    });
+    };
+
+    const formattedMessage = converter.convert(message);
 
     this.insulator.send(formattedMessage);
   }
