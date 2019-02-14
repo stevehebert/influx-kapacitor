@@ -18,7 +18,7 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
 
   public send(lines: string[]): string[] {
     
-    if(lines.length == 0) {
+    if(lines.length === 0) {
       return [];
     }
 
