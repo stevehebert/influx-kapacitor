@@ -7,7 +7,7 @@ class InfluxKapacitor {
 
   public static default?: InfluxKapacitorWriter;
   public static add(pipe: InfluxBroadcaster, broadcastInterval: number = 5000) {
-    InfluxKapacitor.default = new InsulatorImpl(pipe, broadcastInterval, InfluxKapacitor.notificationCallback, InfluxKapacitor.exitCallback).writer;
+    InfluxKapacitor.default = new InsulatorImpl(pipe, broadcastInterval, InfluxKapacitor.notificationCaller, InfluxKapacitor.exitCaller).writer;
   }
 
   public static setNotificationCallback(callback: (content: any, success: boolean) => void) {
