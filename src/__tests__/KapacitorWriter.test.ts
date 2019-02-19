@@ -3,6 +3,8 @@ import { InfluxBroadcaster } from '../InfluxBroadcaster';
 import { InfluxKapacitorWriter } from '../InfluxKapacitorWriter';
 import { InfluxKapacitor } from '../InfluxKapacitor';
 import { Insulator } from '../Insulator';
+import { writer } from 'repl';
+import { TimestampScalingFactor } from '../TimestampScalingFactor';
 
 
 class InfluxPipeStub implements InfluxBroadcaster {
@@ -132,7 +134,34 @@ describe('InfluxKapacitor', () => {
       expect(runSuccess).toBeTruthy();
       expect(runResult.length).toBe(1);
     }, 10)
+  });
 
+  it('timestamp is left along when supplied', () => {
+    var stub = new InsulatorStub();
+    var writer = new InfluxKapacitorWriter(stub);
 
+    var timestamp = writer.getTimestamp(123);
+
+    expect(timestamp).toBe(123);
+  })
+
+  it('timestamp is not scaled when set to default scaling', () => {
+    InfluxKapacitor.timestampScalingFactor = TimestampScalingFactor.UnixTimestamp;
+    var stub = new InsulatorStub();
+    var writer = new InfluxKapacitorWriter(stub);
+
+    var timestamp = writer.getTimestamp();
+
+    expect(Date.now() >= timestamp).toBeTruthy();
+  });
+
+  it('timestamp is scaled to nanoseconds when requested', () => {
+    InfluxKapacitor.timestampScalingFactor = TimestampScalingFactor.Nanosecond;
+    var stub = new InsulatorStub();
+    var writer = new InfluxKapacitorWriter(stub);
+
+    var timestamp = writer.getTimestamp();
+
+    expect(timestamp - Date.now() > 900000).toBeTruthy;
   });
 });

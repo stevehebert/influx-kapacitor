@@ -23,11 +23,20 @@ export class InfluxKapacitorWriter {
       fields: values,
       measurement,
       tags,
-      ts: timestamp || Date.now() * InfluxKapacitor.timestampScalingFactor,
+      ts: this.getTimestamp(timestamp)
     };
 
     const formattedMessage = converter.convert(message);
 
     this.insulator.send(formattedMessage);
   }
+
+  public getTimestamp(timestamp?: number): number {
+    if(timestamp === undefined) {
+      return Date.now() * InfluxKapacitor.timestampScalingFactor;
+    } else {
+      return timestamp;
+    }
+  }
+
 }
