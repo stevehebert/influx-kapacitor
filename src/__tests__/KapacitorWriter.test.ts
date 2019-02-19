@@ -8,9 +8,15 @@ import { Insulator } from '../Insulator';
 class InfluxPipeStub implements InfluxBroadcaster {
   public recorded_values: string[] = new Array();
 
-  send(value: string[]): void {
-    console.log(value);
+  send(value: string[]): any {
     this.recorded_values.concat(value);
+
+    return new Promise((resolve, reject) => {
+      resolve({
+        statusCode: 206,
+        body: value
+      });
+    })
   }
 
   hash_value(): string {
@@ -47,8 +53,6 @@ describe('InfluxKapacitor', () => {
     var map = {
       'clicks': 5
     };
-
-    console.log(map);
 
     impl.record('myMeasure', map);
 
@@ -88,7 +92,6 @@ describe('InfluxKapacitor', () => {
     InfluxKapacitor.add(stub, 0);
 
     InfluxKapacitor.default.simple_record('foo', 'door', 1);
-    console.log(stub.recorded_values)
 
     setTimeout(() => {
       expect(stub.recorded_values.length).toEqual(1);
