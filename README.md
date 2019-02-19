@@ -1,3 +1,3 @@
 # Influx-Kapacitor
 
-[![Coveralls](https://img.shields.io/coveralls/stevehebert/influx-kapacitor.svg)](https://coveralls.io/github/stevehebert/influx-kapacitor)
+[![Coverage Status](https://coveralls.io/repos/github/stevehebert/influx-kapacitor/badge.svg)](https://coveralls.io/github/stevehebert/influx-kapacitor)
