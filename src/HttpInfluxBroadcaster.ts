@@ -1,5 +1,8 @@
 import request = require('request');
+import { empty, from, Observable } from 'rxjs';
+import { BroadcastStatus } from './BroadcastStatus';
 import { InfluxBroadcaster } from './InfluxBroadcaster';
+import { KapacitorResponse } from './KapacitorResponse';
 
 class HttpInfluxBroadcaster implements InfluxBroadcaster {
   public static combine_lines(lines: string[]): string {
@@ -16,28 +19,35 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
     return `http::${this.url}`;
   }
 
-  public send(lines: string[]): string[] {
-    
+  public send(lines: string[]): Observable<KapacitorResponse> {
     if(lines.length === 0) {
-      return [];
+
+      return from([]);
     }
 
-    request({
+    const options = {
       body: HttpInfluxBroadcaster.combine_lines(lines),
       encoding: null,
       method: 'POST',
       url: this.url,
-    }, (error, response, body) => {
-      if (error) {
-        // console.log('HttpKapacitor: ', error);
-      }
-      else {
-        // console.log(`metric write success ${response.statusCode}`);
-      }
-    });
+    };
 
-    return lines;
+    const response: Observable<KapacitorResponse> = from(new Promise<KapacitorResponse>((resolve, reject) => {
+      request(options, (error: any, r1: any, body: any) => {
+        if(error) {
+          if( error.statusCode === undefined) {
+            reject(new KapacitorResponse(BroadcastStatus.Unreachable, error));
+          } else {
+            reject(new KapacitorResponse(BroadcastStatus.Failure, error, error.statusCode));
+          }
+        } else {
+          resolve(new KapacitorResponse(BroadcastStatus.Success, r1, r1.statusCode));
+        }
+      });
+    }));
+
+    return response;
   }
 }
 
-export { HttpInfluxBroadcaster }
+export { HttpInfluxBroadcaster, KapacitorResponse }

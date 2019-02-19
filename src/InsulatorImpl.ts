@@ -1,5 +1,5 @@
 import { interval, Observable, Subscriber } from 'rxjs';
-import { bufferWhen, map } from 'rxjs/operators';
+import { bufferWhen, flatMap, map } from 'rxjs/operators';
 import { InfluxBroadcaster } from './InfluxBroadcaster';
 import { InfluxKapacitorWriter } from './InfluxKapacitorWriter';
 import { Insulator } from './Insulator';
@@ -20,9 +20,9 @@ export class InsulatorImpl implements Insulator {
     (broadcastInterval > 0 ?
       observable
         .pipe(bufferWhen(() => interval(broadcastInterval)))
-        .pipe(map(x => pipe.send(x))) :
+        .pipe(flatMap(pipe.send)) :
       observable
-        .pipe(map(x => pipe.send([x]))))
+        .pipe(flatMap(x => pipe.send([x]))))
       .subscribe(x => callback(x, true), 
           e => callback(e, false),
           () => exitCallback() );

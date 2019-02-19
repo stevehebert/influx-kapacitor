@@ -1,4 +1,5 @@
 import converter = require('json-to-line-protocol');
+import { InfluxKapacitor } from './InfluxKapacitor';
 import { Insulator } from './Insulator';
 
 export class InfluxKapacitorWriter {
@@ -22,7 +23,7 @@ export class InfluxKapacitorWriter {
       fields: values,
       measurement,
       tags,
-      ts: timestamp || Date.now() * 1000000,
+      ts: timestamp || Date.now() * InfluxKapacitor.timestampScalingFactor,
     };
 
     const formattedMessage = converter.convert(message);
