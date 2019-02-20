@@ -20,7 +20,7 @@ export class InsulatorImpl implements Insulator {
     (broadcastInterval > 0 ?
       observable
         .pipe(bufferWhen(() => interval(broadcastInterval)))
-        .pipe(flatMap(pipe.send)) :
+        .pipe(flatMap(x => pipe.send(x))) :
       observable
         .pipe(flatMap(x => pipe.send([x]))))
       .subscribe(x => callback(x, true), 
