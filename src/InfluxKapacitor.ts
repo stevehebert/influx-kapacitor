@@ -7,8 +7,10 @@ import { TimestampScalingFactor } from './TimestampScalingFactor';
 class InfluxKapacitor {
   public static timestampScalingFactor: TimestampScalingFactor = TimestampScalingFactor.UnixTimestamp;
 
+  public static defaultBroadcaster?: InfluxBroadcaster;
   public static default?: InfluxKapacitorWriter;
   public static add(pipe: InfluxBroadcaster, broadcastInterval: number = 5000) {
+    InfluxKapacitor.defaultBroadcaster = pipe;
     InfluxKapacitor.default = new InsulatorImpl(pipe, broadcastInterval, InfluxKapacitor.notificationCaller, InfluxKapacitor.exitCaller).writer;
   }
 
@@ -22,19 +24,19 @@ class InfluxKapacitor {
   }
 
   public static exitCaller(): void {
-    if (InfluxKapacitor.exitCallback !== null) {
+    if (!(InfluxKapacitor.exitCallback == null)) {
       InfluxKapacitor.exitCallback();
+    }
+  }
+
+  public static notificationCaller(content: any, success: boolean): void {
+    if (!(InfluxKapacitor.notificationCallback == null)) {
+      InfluxKapacitor.notificationCallback(content, success);
     }
   }
 
   private static notificationCallback: (content: any, success: boolean) => void;
   private static exitCallback: () => void;
-
-  private static notificationCaller(content: any, success: boolean): void {
-    if (InfluxKapacitor.notificationCallback !== null) {
-      InfluxKapacitor.notificationCallback(content, success);
-    }
-  }
 }
 
 export { InfluxKapacitor }
