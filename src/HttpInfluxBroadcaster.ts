@@ -9,7 +9,7 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
     return lines.join('\n');
   }
   
-  private url: string;
+  public url: string;
 
   constructor(url: string) {
     this.url = url;
@@ -21,8 +21,7 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
 
   public send(lines: string[]): Observable<KapacitorResponse> {
     if(lines.length === 0) {
-
-      return from([]);
+      return empty();
     }
 
     const options = {
