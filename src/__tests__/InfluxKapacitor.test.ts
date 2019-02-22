@@ -98,4 +98,21 @@ describe('InfluxKapacitor', () => {
     InfluxKapacitor.notificationCaller(null, null);
     expect(value).toBe(2);
   });
+
+  it('shuts down on signal from the writer', done => {
+    let value = 0;
+
+    InfluxKapacitor.setExitCallback(() => {
+      value += 1;
+    });
+
+    InfluxKapacitor.add(new HttpInfluxBroadcaster('http://localhost'));
+
+    InfluxKapacitor.default.shutdown();
+
+    setTimeout(() => {
+      expect(value).toBe(1);
+      done();
+    }, 5)
+  })
 });
