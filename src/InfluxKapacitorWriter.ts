@@ -31,6 +31,10 @@ export class InfluxKapacitorWriter {
     this.insulator.send(formattedMessage);
   }
 
+  public shutdown(): void {
+    this.insulator.shutdown();
+  }
+
   public getTimestamp(timestamp?: number): number {
     if(timestamp === undefined) {
       return Date.now() * InfluxKapacitor.timestampScalingFactor;

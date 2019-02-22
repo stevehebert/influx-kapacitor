@@ -34,4 +34,11 @@ export class InsulatorImpl implements Insulator {
     }
     return value;
   }
+
+  public shutdown(): void {
+    if(this.processor !== undefined) {
+      this.processor.complete();
+      this.processor = undefined;
+    }
+  }
 }

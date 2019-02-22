@@ -1,6 +1,6 @@
 {
   "name": "influx-kapacitor",
-  "version": "0.8.6",
+  "version": "0.8.7",
   "description": "An influx broadcaster supporting multiple transmission protocols and applies backpressure to reduce chattiness.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
