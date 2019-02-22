@@ -15,10 +15,6 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
     this.url = url;
   }
 
-  public hash_value(): string {
-    return `http::${this.url}`;
-  }
-
   public send(lines: string[]): Observable<KapacitorResponse> {
     if(lines.length === 0) {
       return empty();
