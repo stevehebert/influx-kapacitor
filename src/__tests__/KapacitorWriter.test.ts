@@ -88,7 +88,7 @@ describe('InfluxKapacitor', () => {
     expect(stub.recorded_values[0].substring(0, 38)).toEqual('myMeasure,abcd=12345678 key1=4,key2=7 ');
   });
 
-  it('runs', () => {
+  /*it('runs', () => {
     var stub = new InfluxPipeStub();
 
     InfluxKapacitor.add(stub, 0);
@@ -134,7 +134,7 @@ describe('InfluxKapacitor', () => {
       expect(runSuccess).toBeTruthy();
       expect(runResult.length).toBe(1);
     }, 10)
-  });
+  });*/
 
   it('timestamp is left along when supplied', () => {
     var stub = new InsulatorStub();
