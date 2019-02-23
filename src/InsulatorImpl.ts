@@ -1,6 +1,6 @@
 import { interval, Observable, Subscriber } from 'rxjs';
 import { bufferWhen, flatMap, map } from 'rxjs/operators';
-import { InfluxBroadcaster } from './InfluxBroadcaster';
+import { InfluxBroadcaster } from './broadcasters/InfluxBroadcaster';
 import { InfluxKapacitorWriter } from './InfluxKapacitorWriter';
 import { Insulator } from './Insulator';
 

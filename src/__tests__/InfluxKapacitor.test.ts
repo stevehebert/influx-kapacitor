@@ -1,4 +1,4 @@
-import { HttpInfluxBroadcaster } from '../HttpInfluxBroadcaster';
+import { HttpInfluxBroadcaster } from '../broadcasters/HttpInfluxBroadcaster';
 import { InfluxKapacitor } from '../InfluxKapacitor';
 import { InfluxKapacitorWriter } from '../InfluxKapacitorWriter';
 

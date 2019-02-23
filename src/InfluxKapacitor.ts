@@ -1,4 +1,4 @@
-import { InfluxBroadcaster } from './InfluxBroadcaster';
+import { InfluxBroadcaster } from './broadcasters/InfluxBroadcaster';
 import { InfluxKapacitorWriter } from './InfluxKapacitorWriter';
 import { InsulatorImpl } from './InsulatorImpl';
 import { TimestampScalingFactor } from './TimestampScalingFactor';

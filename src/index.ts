@@ -1,5 +1,4 @@
-export * from "./HttpInfluxBroadcaster"
-export * from "./InfluxBroadcaster"
+export * from "./broadcasters/HttpInfluxBroadcaster"
+export * from "./broadcasters/InfluxBroadcaster"
 export * from "./InfluxKapacitor"
 export * from "./BroadcastStatus"
-export * from "./KapacitorResponse"

@@ -1,11 +1,11 @@
 // src/_tests__/HttpInfluxBroadcaster.test.ts
 
-import { HttpInfluxBroadcaster } from '../HttpInfluxBroadcaster';
+import { HttpInfluxBroadcaster } from '../broadcasters/HttpInfluxBroadcaster';
 import { from } from 'rxjs';
 import { BroadcastStatus } from '../BroadcastStatus';
 import { KapacitorResponse } from '../KapacitorResponse';
 
-describe('HttpInfluxCapacitor', () => {
+describe('HttpInfluxBroadcaster', () => {
   let Server = null;
 
   beforeAll(() => {
@@ -25,12 +25,6 @@ describe('HttpInfluxCapacitor', () => {
     console.log('Server running on port 8087');
   });
 
-
-
-  it('combines strings into a single linefeed delimited string', () => {
-    const output = HttpInfluxBroadcaster.combine_lines(["a", "b", "c"]);
-    expect(output).toBe('a\nb\nc');
-  });
 
 
   it('writes', (done) => {
