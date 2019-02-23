@@ -1,14 +1,11 @@
 import request = require('request');
 import { empty, from, Observable } from 'rxjs';
-import { BroadcastStatus } from './BroadcastStatus';
+import { BroadcastStatus } from './../BroadcastStatus';
+import { KapacitorResponse } from './../KapacitorResponse';
+import { BroadcasterUtilities } from './BroadcasterUtilities'
 import { InfluxBroadcaster } from './InfluxBroadcaster';
-import { KapacitorResponse } from './KapacitorResponse';
 
 class HttpInfluxBroadcaster implements InfluxBroadcaster {
-  public static combine_lines(lines: string[]): string {
-    return lines.join('\n');
-  }
-  
   public url: string;
 
   constructor(url: string) {
@@ -21,7 +18,7 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
     }
 
     const options = {
-      body: HttpInfluxBroadcaster.combine_lines(lines),
+      body: BroadcasterUtilities.combine_lines(lines),
       encoding: null,
       method: 'POST',
       url: this.url,
