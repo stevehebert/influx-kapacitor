@@ -1,7 +1,7 @@
-import { BroadcastStatus } from "./BroadcastStatus";
+import { BroadcastStatus } from './BroadcastStatus';
 
 class KapacitorResponse {
-  constructor(public broadcastStatus: BroadcastStatus, public errorDetails: any, public statusCode?: number) { }
+  constructor(public broadcastStatus: BroadcastStatus, public errorDetails: any, public statusCode?: number) {}
 }
 
-export { KapacitorResponse }
+export { KapacitorResponse };

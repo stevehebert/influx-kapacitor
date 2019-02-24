@@ -1,8 +1,7 @@
 enum BroadcastStatus {
   Success = 'SUCCESS',
   Failure = 'FAIL',
-  Unreachable = 'UNREACHABLE'
+  Unreachable = 'UNREACHABLE',
 }
 
-export { BroadcastStatus }
-
+export { BroadcastStatus };

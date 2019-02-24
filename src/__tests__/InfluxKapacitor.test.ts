@@ -2,18 +2,17 @@ import { HttpInfluxBroadcaster } from '../broadcasters/HttpInfluxBroadcaster';
 import { InfluxKapacitor } from '../InfluxKapacitor';
 import { InfluxKapacitorWriter } from '../InfluxKapacitorWriter';
 
-
 describe('InfluxKapacitor', () => {
   it('adds a broadcaster', () => {
-    InfluxKapacitor.add(new HttpInfluxBroadcaster('http://localhost:8086'),0);
+    InfluxKapacitor.add(new HttpInfluxBroadcaster('http://localhost:8086'), 0);
 
     expect(InfluxKapacitor.default).not.toBeNull();
     expect(InfluxKapacitor.defaultBroadcaster).not.toBeNull();
-  })
+  });
 
   it('communicates over the exit callback', () => {
     let value = 0;
-    
+
     InfluxKapacitor.setExitCallback(() => {
       value += 1;
     });
@@ -113,6 +112,6 @@ describe('InfluxKapacitor', () => {
     setTimeout(() => {
       expect(value).toBe(1);
       done();
-    }, 5)
-  })
+    }, 5);
+  });
 });
