@@ -3,7 +3,6 @@ import { InfluxKapacitorWriter } from './InfluxKapacitorWriter';
 import { InsulatorImpl } from './InsulatorImpl';
 import { TimestampScalingFactor } from './TimestampScalingFactor';
 
-
 class InfluxKapacitor {
   public static timestampScalingFactor: TimestampScalingFactor = TimestampScalingFactor.UnixTimestamp;
 
@@ -11,9 +10,13 @@ class InfluxKapacitor {
   public static default?: InfluxKapacitorWriter;
   public static add(pipe: InfluxBroadcaster, broadcastInterval: number = 5000) {
     InfluxKapacitor.defaultBroadcaster = pipe;
-    InfluxKapacitor.default = new InsulatorImpl(pipe, broadcastInterval, InfluxKapacitor.notificationCaller, InfluxKapacitor.exitCaller).writer;
+    InfluxKapacitor.default = new InsulatorImpl(
+      pipe,
+      broadcastInterval,
+      InfluxKapacitor.notificationCaller,
+      InfluxKapacitor.exitCaller,
+    ).writer;
   }
-
 
   public static setNotificationCallback(callback: (content: any, success: boolean) => void) {
     InfluxKapacitor.notificationCallback = callback;
@@ -39,4 +42,4 @@ class InfluxKapacitor {
   private static exitCallback: () => void;
 }
 
-export { InfluxKapacitor }
+export { InfluxKapacitor };

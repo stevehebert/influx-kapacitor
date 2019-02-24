@@ -6,7 +6,6 @@ import { Insulator } from '../Insulator';
 import { writer } from 'repl';
 import { TimestampScalingFactor } from '../TimestampScalingFactor';
 
-
 class InfluxPipeStub implements InfluxBroadcaster {
   public recorded_values: string[] = new Array();
 
@@ -16,9 +15,9 @@ class InfluxPipeStub implements InfluxBroadcaster {
     return new Promise((resolve, reject) => {
       resolve({
         statusCode: 206,
-        body: value
+        body: value,
       });
-    })
+    });
   }
 
   hash_value(): string {
@@ -53,7 +52,7 @@ describe('InfluxKapacitor', () => {
 
     var impl = new InfluxKapacitorWriter(stub);
     var map = {
-      'clicks': 5
+      clicks: 5,
     };
 
     impl.record('myMeasure', map);
@@ -68,7 +67,7 @@ describe('InfluxKapacitor', () => {
 
     var impl = new InfluxKapacitorWriter(stub);
 
-    impl.record('myMeasure', {'key1':4, 'key2': 7});
+    impl.record('myMeasure', { key1: 4, key2: 7 });
 
     expect(stub.recorded_values.length).toEqual(1);
     expect(stub.recorded_values[0].length).toBeGreaterThan(20);
@@ -80,8 +79,7 @@ describe('InfluxKapacitor', () => {
 
     var impl = new InfluxKapacitorWriter(stub);
 
-
-    impl.record('myMeasure', {'key1':4, 'key2': 7}, {'abcd': '12345678'});
+    impl.record('myMeasure', { key1: 4, key2: 7 }, { abcd: '12345678' });
 
     expect(stub.recorded_values.length).toEqual(1);
     expect(stub.recorded_values[0].length).toBeGreaterThan(20);
@@ -143,7 +141,7 @@ describe('InfluxKapacitor', () => {
     var timestamp = writer.getTimestamp(123);
 
     expect(timestamp).toBe(123);
-  })
+  });
 
   it('timestamp is not scaled when set to default scaling', () => {
     InfluxKapacitor.timestampScalingFactor = TimestampScalingFactor.UnixTimestamp;

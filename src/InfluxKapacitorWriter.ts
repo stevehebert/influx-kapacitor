@@ -8,8 +8,8 @@ export class InfluxKapacitorWriter {
     this.insulator = pipe;
   }
   public simple_record(measurement: string, key: string, value: any, timestamp?: number): void {
-    const map: object = new Object ({
-      [key]: value
+    const map: object = new Object({
+      [key]: value,
     });
 
     this.record(measurement, map, undefined, timestamp);
@@ -23,7 +23,7 @@ export class InfluxKapacitorWriter {
       fields: values,
       measurement,
       tags,
-      ts: this.getTimestamp(timestamp)
+      ts: this.getTimestamp(timestamp),
     };
 
     const formattedMessage = converter.convert(message);
@@ -36,11 +36,10 @@ export class InfluxKapacitorWriter {
   }
 
   public getTimestamp(timestamp?: number): number {
-    if(timestamp === undefined) {
+    if (timestamp === undefined) {
       return Date.now() * InfluxKapacitor.timestampScalingFactor;
     } else {
       return timestamp;
     }
   }
-
 }

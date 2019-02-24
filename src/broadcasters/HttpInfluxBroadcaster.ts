@@ -2,7 +2,7 @@ import request = require('request');
 import { empty, from, Observable } from 'rxjs';
 import { BroadcastStatus } from './../BroadcastStatus';
 import { KapacitorResponse } from './../KapacitorResponse';
-import { BroadcasterUtilities } from './BroadcasterUtilities'
+import { BroadcasterUtilities } from './BroadcasterUtilities';
 import { InfluxBroadcaster } from './InfluxBroadcaster';
 
 class HttpInfluxBroadcaster implements InfluxBroadcaster {
@@ -13,7 +13,7 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
   }
 
   public send(lines: string[]): Observable<KapacitorResponse> {
-    if(lines.length === 0) {
+    if (lines.length === 0) {
       return empty();
     }
 
@@ -24,22 +24,24 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
       url: this.url,
     };
 
-    const response: Observable<KapacitorResponse> = from(new Promise<KapacitorResponse>((resolve, reject) => {
-      request(options, (error: any, r1: any, body: any) => {
-        if(error) {
-          if( error.statusCode === undefined) {
-            reject(new KapacitorResponse(BroadcastStatus.Unreachable, error));
+    const response: Observable<KapacitorResponse> = from(
+      new Promise<KapacitorResponse>((resolve, reject) => {
+        request(options, (error: any, r1: any, body: any) => {
+          if (error) {
+            if (error.statusCode === undefined) {
+              reject(new KapacitorResponse(BroadcastStatus.Unreachable, error));
+            } else {
+              reject(new KapacitorResponse(BroadcastStatus.Failure, error, error.statusCode));
+            }
           } else {
-            reject(new KapacitorResponse(BroadcastStatus.Failure, error, error.statusCode));
+            resolve(new KapacitorResponse(BroadcastStatus.Success, r1, r1.statusCode));
           }
-        } else {
-          resolve(new KapacitorResponse(BroadcastStatus.Success, r1, r1.statusCode));
-        }
-      });
-    }));
+        });
+      }),
+    );
 
     return response;
   }
 }
 
-export { HttpInfluxBroadcaster, KapacitorResponse }
+export { HttpInfluxBroadcaster, KapacitorResponse };

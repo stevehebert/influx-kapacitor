@@ -10,7 +10,7 @@ describe('HttpInfluxBroadcaster', () => {
 
   beforeAll(() => {
     let http = require('http');
-    this.Server = http.createServer(function (req, res) {
+    this.Server = http.createServer(function(req, res) {
       req.on('data', chunk => {
         // console.log('A chunk of data has arrived: ', chunk.toString('utf8'));
       });
@@ -25,39 +25,40 @@ describe('HttpInfluxBroadcaster', () => {
     console.log('Server running on port 8087');
   });
 
-
-
-  it('writes', (done) => {
+  it('writes', done => {
     const b = new HttpInfluxBroadcaster('http://localhost:8087/write');
-    b.send(["a", "b", "c"])
-      .subscribe(x => {
-        expect(x.broadcastStatus).toBe(BroadcastStatus.Success);
-        expect(x.statusCode).toBe(200);
-        done();
-      })
+    b.send(['a', 'b', 'c']).subscribe(x => {
+      expect(x.broadcastStatus).toBe(BroadcastStatus.Success);
+      expect(x.statusCode).toBe(200);
+      done();
+    });
   });
 
   it('errors correctly when not being listened to', done => {
     const b = new HttpInfluxBroadcaster('http://localhost:8088/write');
-    b.send(["a", "b", "c"])
-      .subscribe(x => {
-        expect(x.broadcastStatus).toBe(11);  // ensure this breaks because we should never have a listener on 8088
+    b.send(['a', 'b', 'c']).subscribe(
+      x => {
+        expect(x.broadcastStatus).toBe(11); // ensure this breaks because we should never have a listener on 8088
         done();
-      }, e => {
+      },
+      e => {
         expect(e.broadcastStatus).toBe(BroadcastStatus.Unreachable);
         done();
-      });
+      },
+    );
   });
 
   it('returns an empty observable when no items are sent', done => {
-    new HttpInfluxBroadcaster('http://localhost:8088/write')
-      .send([])
-      .subscribe(x => {
+    new HttpInfluxBroadcaster('http://localhost:8088/write').send([]).subscribe(
+      x => {
         expect(1).toBe(2);
-      }, e => {
+      },
+      e => {
         expect(1).toBe(2);
-      }, () => {
+      },
+      () => {
         done();
-      });
+      },
+    );
   });
 });
