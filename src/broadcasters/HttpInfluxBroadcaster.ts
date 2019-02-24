@@ -28,11 +28,7 @@ class HttpInfluxBroadcaster implements InfluxBroadcaster {
       new Promise<KapacitorResponse>((resolve, reject) => {
         request(options, (error: any, r1: any, body: any) => {
           if (error) {
-            if (error.statusCode === undefined) {
-              reject(new KapacitorResponse(BroadcastStatus.Unreachable, error));
-            } else {
-              reject(new KapacitorResponse(BroadcastStatus.Failure, error, error.statusCode));
-            }
+            reject(new KapacitorResponse(BroadcastStatus.Unreachable, error));
           } else {
             resolve(new KapacitorResponse(BroadcastStatus.Success, r1, r1.statusCode));
           }
