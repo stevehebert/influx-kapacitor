@@ -48,6 +48,20 @@ describe('HttpInfluxBroadcaster', () => {
     );
   });
 
+  it('errors correctly when invalid address', done => {
+    const b = new HttpInfluxBroadcaster('10.0.0.10.4');
+    b.send(['a', 'b', 'c']).subscribe(
+      x => {
+        expect(x.broadcastStatus).toBe(11); // ensure this breaks because we should never have a listener on 8088
+        done();
+      },
+      e => {
+        expect(e.broadcastStatus).toBe(BroadcastStatus.Unreachable);
+        done();
+      },
+    );
+  });
+
   it('returns an empty observable when no items are sent', done => {
     new HttpInfluxBroadcaster('http://localhost:8088/write').send([]).subscribe(
       x => {
